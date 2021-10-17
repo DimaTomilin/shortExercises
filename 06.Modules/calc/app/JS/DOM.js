@@ -1,4 +1,4 @@
-import {addFunction, subFunction, multiplyFunction, divideFunction, equalsFucntion, percentFunction, printNumber, deleteAll} from "./eventFunctions"
+import {addFunction, subFunction, multiplyFunction, divideFunction, equalsFucntion, percentFunction, printNumber, deleteAll, sqrtFunction} from "./eventFunctions"
 
 
 const addButton = document.getElementById("add");
@@ -9,6 +9,7 @@ const equalsButton = document.getElementById("equals");
 const percentButton = document.getElementById("percent");
 const numbersButtons = document.getElementsByClassName("number")
 const deleteButton = document.getElementById("delete")
+const sqrtButton = document.getElementById("sqrt")
 
 
 addButton.addEventListener("click", addFunction)
@@ -21,3 +22,4 @@ for(const button of numbersButtons){
     button.addEventListener("click", printNumber)
 }
 deleteButton.addEventListener("click", deleteAll)
+sqrtButton.addEventListener("click", sqrtFunction)
