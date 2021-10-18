@@ -1,3 +1,3 @@
 import "./styles.css";
-import "./JS/DOM.js"
+import "./JS/eventFunctions.js"
 
