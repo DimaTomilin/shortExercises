@@ -1,25 +1,45 @@
 import {addFunction, subFunction, multiplyFunction, divideFunction, equalsFucntion, percentFunction, printNumber, deleteAll, sqrtFunction} from "./eventFunctions"
 
 
-const addButton = document.getElementById("add");
-const subButton = document.getElementById("sub");
-const devideButton = document.getElementById("divide");
-const multiplyButton = document.getElementById("multiply");
-const equalsButton = document.getElementById("equals");
-const percentButton = document.getElementById("percent");
 const numbersButtons = document.getElementsByClassName("number")
-const deleteButton = document.getElementById("delete")
-const sqrtButton = document.getElementById("sqrt")
-
-
-addButton.addEventListener("click", addFunction)
-equalsButton.addEventListener("click", equalsFucntion)
-subButton.addEventListener("click", subFunction)
-multiplyButton.addEventListener("click", multiplyFunction)
-devideButton.addEventListener("click", divideFunction)
-percentButton.addEventListener("click", percentFunction)
 for(const button of numbersButtons){
     button.addEventListener("click", printNumber)
 }
+
+const deleteButton = document.getElementById("delete")
 deleteButton.addEventListener("click", deleteAll)
+
+const addButton = document.getElementById("add");
+addButton.addEventListener("click", addFunction)
+
+const subButton = document.getElementById("sub");
+subButton.addEventListener("click", subFunction)
+
+const devideButton = document.getElementById("divide");
+devideButton.addEventListener("click", divideFunction)
+
+const multiplyButton = document.getElementById("multiply");
+multiplyButton.addEventListener("click", multiplyFunction)
+
+const percentButton = document.getElementById("percent");
+percentButton.addEventListener("click", percentFunction)
+
+const sqrtButton = document.getElementById("sqrt")
 sqrtButton.addEventListener("click", sqrtFunction)
+
+const equalsButton = document.getElementById("equals");
+equalsButton.addEventListener("click", equalsFucntion)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
