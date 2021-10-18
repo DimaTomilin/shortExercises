@@ -1,55 +1,24 @@
-import {add, divide, multiply, equals, sub} from "../helpers/math.js"
+import {calc} from "../helpers/math";
 
-const input = document.getElementById("input")
-let n1 = 0;
-let n2 = 0;
-let callback;
+const input = document.querySelector(".result")
+const buttons = document.querySelectorAll("input[type='button']")
 
-
-export function addFunction(){
-    //if(n1 === "null"){
-        n1 = parseFloat(input.value);
-        callback = add;
-        input.value = "";
-    //}
+for(const button of buttons){
+    button.addEventListener("click", printSymbol)
 }
 
-export function equalsFucntion(){
-    n2 =  parseFloat(input.value);
-    input.value = equals(n1, n2, callback)
+function printSymbol(event){
+    const value = event.target.value;
+    if (value === "=") equelsClicked();
+    else if (value === "Del") deleteClicked();
+    else input.value += value;
+}
+    
+function equelsClicked() {
+  const str = input.value;
+  input.value = calc(str)
 }
 
-export function subFunction(){
-    n1 = parseFloat(input.value);
-    callback = sub;
-    input.value = "";
-}
-
-export function multiplyFunction(){
-    n1 = parseFloat(input.value);
-    callback = multiply;
-    input.value = "";
-}
-
-export function divideFunction(){
-    n1 = parseFloat(input.value);
-    callback = divide;
-    input.value = "";
-}
-
-export function percentFunction(){
-    n2 = parseFloat(input.value)/100;
-    console.log(n2)
-    input.value = equals(n1, n2, callback)
-}
-
-export function printNumber(event){
-    const number = event.target.value
-    input.value += number;
-}
-
-export function deleteAll(){
-    n1 = 0;
-    input.value = "";
-    callback = null;
+function deleteClicked() {
+  input.value = ""
 }
