@@ -1,4 +1,5 @@
 maze\chest-1.json
+maze\chest-3.json
 maze\room-1\room-0\chest-1.json
 maze\room-2\room-0\chest-1.json
 maze\room-0\room-0\chest-1.json

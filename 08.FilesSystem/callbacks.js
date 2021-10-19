@@ -1,81 +1,58 @@
-const fs = require("fs")
+const fs=require("fs");
+const path=require("path");
 const os = require("os");
 
-const myMap=[];
-
-let found = false;
-const findTreasureSync=(roomPath, cb)=> {
-    fs.readdir(roomPath, (err, files)=>{
-        if(err) return console.error(err);
-        else {
-            files.forEach(check => {
-                if(check.endsWith('.json')&&!found){
-                    return cb(`${roomPath}/${check}`)
-                }
-            })
-        }
-    });
-    ;
-}
-
-
-const openChestSync=(chestPath, cb)=> {
-    try {
-        const file=JSON.parse(fs.readFileSync(chestPath).toString().trim());
-        drawMapSync(chestPath);
-        if(file.treasure!==undefined){
-            drawMapSync("treasure!")
-            found = true;
-            return;
-        }
-        const clue = file.clue;
-        return (findTreasureSync(clue));
-    } catch (error) {
-        console.error(error)
-        return;
-    }
-}
-
-
-const drawMapSync=(currentRoomPath, cb)=> {
-    fs.appendFileSync("./treasureMap.txt", currentRoomPath+os.EOL);
-}
-
-findTreasureSync(`./maze`, openChestSync);
-
-
-
-/*
-
-const fs=require("fs")
 
 function findTreasure(roomPath, cb) {
     fs.readdir(roomPath,(err,files)=>{
-        if(err)
+        if (err){
             return;
-        files.forEach(check => {
-            if(check.endsWith('.json'))
-            {
-                cb(`${roomPath}/${check}`,)
-            }            
+        }
+        files.forEach(file => {
+            fs.lstat(path.join(roomPath,file),(err,stat)=>{
+                if(err){
+                    return;
+                }
+                if(stat.isFile()){
+                    cb((path.join(roomPath,file)),findTreasure);
+                }
+            })
         });
     }
     );
 }
 
-
 function openChest(chestPath, cb) {
-    let clue = fs.lstat(chestPath,(err,data)=>{
-        if (err)
+    let clue = fs.readFile(chestPath,(err,data)=>{
+        if (err){   
             return;
-                console.log(data);
+        }
+        if(checkJson(data.toString().trim())){ 
+            data=JSON.parse(data.toString().trim());
+            drawMapSync(chestPath);
+            if(data.treasure!== undefined){
+                drawMapSync("treasure!")
+                console.log("found the treasure!");
+                return;
+            }
+            return (cb(data.clue,openChest));
+        }
     })
 }
 
-
 function drawMapSync(currentRoomPath, cb) {
-
+    fs.appendFileSync("./treasureMap.txt", currentRoomPath+os.EOL);
 }
 
-findTreasure(`./maze`,openChest)
-*/
+const checkJson=(data)=>{
+    try{
+        data=JSON.parse(data);
+    }
+    catch(err){
+        return false;
+    }
+    return true;
+}
+
+fs.writeFileSync(`./treasureMap.txt`,(''));
+findTreasure(`./maze`, openChest)
