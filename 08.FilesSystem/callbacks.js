@@ -1,20 +1,20 @@
-const fs=require("fs");
-const path=require("path");
+const fs = require("fs");
+const path = require("path");
 const os = require("os");
 
 
 function findTreasure(roomPath, cb) {
-    fs.readdir(roomPath,(err,files)=>{
+    fs.readdir(roomPath, (err, files) => {
         if (err){
             return;
         }
         files.forEach(file => {
-            fs.lstat(path.join(roomPath,file),(err,stat)=>{
+            fs.lstat(path.join(roomPath, file), (err, stat) => {
                 if(err){
                     return;
                 }
                 if(stat.isFile()){
-                    cb((path.join(roomPath,file)),findTreasure);
+                    cb((path.join(roomPath, file)), findTreasure);
                 }
             })
         });
@@ -23,32 +23,31 @@ function findTreasure(roomPath, cb) {
 }
 
 function openChest(chestPath, cb) {
-    let clue = fs.readFile(chestPath,(err,data)=>{
+    fs.readFile(chestPath, (err, data) => {
         if (err){   
             return;
         }
         if(checkJson(data.toString().trim())){ 
-            data=JSON.parse(data.toString().trim());
+            data = JSON.parse(data.toString().trim());
             drawMapSync(chestPath);
-            if(data.treasure!== undefined){
+            if(data.treasure !== undefined){
                 drawMapSync("treasure!")
                 console.log("found the treasure!");
                 return;
             }
-            return (cb(data.clue,openChest));
+            cb(data.clue, openChest);
         }
     })
 }
 
-function drawMapSync(currentRoomPath, cb) {
-    fs.appendFileSync("./treasureMap.txt", currentRoomPath+os.EOL);
+function drawMapSync(currentRoomPath) {
+    fs.appendFileSync("./treasureMap.txt", currentRoomPath + os.EOL);
 }
 
-const checkJson=(data)=>{
+const checkJson=(data) => {
     try{
-        data=JSON.parse(data);
-    }
-    catch(err){
+        JSON.parse(data);
+    } catch(err) {
         return false;
     }
     return true;

@@ -1,9 +1,9 @@
-const fs=require("fs")
+const fs = require("fs")
 const os = require("os");
 const path = require("path")
 
 let found = false;
-const findTreasureSync=(roomPath)=> {
+const findTreasureSync = (roomPath) => {
     const skelton = fs.readdirSync(roomPath, );
     skelton.forEach(file => {
         const fileInformation = fs.statSync(path.join(roomPath,file))
@@ -14,11 +14,11 @@ const findTreasureSync=(roomPath)=> {
 }
 
 
-const openChestSync=(chestPath)=> {
+const openChestSync=(chestPath) => {
     try {
         const file = JSON.parse(fs.readFileSync(chestPath).toString().trim());
         drawMapSync(chestPath);
-        if(file.treasure!==undefined){
+        if(file.treasure !== undefined){
             drawMapSync("treasure!")
             found = true;
             return;
@@ -30,8 +30,9 @@ const openChestSync=(chestPath)=> {
     }
 }
 
-const drawMapSync=(currentRoomPath)=> {
-    fs.appendFileSync("./treasureMap.txt", currentRoomPath+os.EOL);
+const drawMapSync = (currentRoomPath) => {
+    fs.appendFileSync("./treasureMap.txt", currentRoomPath + os.EOL);
 }
 
+fs.writeFileSync(`./treasureMap.txt`,(''));
 findTreasureSync(`./maze`);
