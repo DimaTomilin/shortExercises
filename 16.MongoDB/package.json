@@ -1,11 +1,11 @@
 {
-  "name": "16.MongoDB",
+  "name": "mongodb",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
