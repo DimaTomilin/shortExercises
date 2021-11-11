@@ -9,6 +9,6 @@ const {
 
 router.get('/cities', showAllCities);
 router.get('/agents', agentsFromCity);
-router.put('/agent/:id/edit', updateAgentCity);
+router.put('/agent/:id/edit/:city', updateAgentCity);
 
 module.exports = router;

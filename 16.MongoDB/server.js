@@ -7,10 +7,10 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const apiRouter = require('./backend/routers/agent');
-
 server.use(cors());
 server.use(express.json());
+
+const apiRouter = require('./backend/routers/agent');
 
 mongoose
   .connect(process.env.DATABASE, {

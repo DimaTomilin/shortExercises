@@ -27,15 +27,21 @@ exports.agentsFromCity = async (req, res) => {
 
 exports.updateAgentCity = async (req, res) => {
   const _id = req.params.id;
-  const city = req.body.city;
+  const city = req.params.city;
   try {
-    Agent.findByIdAndUpdate(_id, { city }, function (err, docs) {
-      if (err) {
-        throw err;
-      } else {
-        res.send(docs);
+    Agent.findByIdAndUpdate(
+      _id,
+      { city: city },
+      { runValidators: true },
+      function (err, docs) {
+        if (err) {
+          throw err;
+        } else {
+          console.log(docs);
+          res.send(docs);
+        }
       }
-    });
+    );
   } catch (error) {
     res.send(error);
     return;
