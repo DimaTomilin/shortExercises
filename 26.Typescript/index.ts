@@ -28,9 +28,9 @@ app.get('/bmi', (req, res) => {
 
 app.post('/exercises', (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const daily_exercises: number[] = req.body.daily_exercises;
+  const daily_exercises: number[] = req.body.daily_exercises as number[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const target = Number(req.body.daily_exercises);
+  const target = Number(req.body.target as number);
 
   try {
     if (daily_exercises === undefined || target === undefined) {
