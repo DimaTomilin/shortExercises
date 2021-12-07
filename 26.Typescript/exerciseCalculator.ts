@@ -21,8 +21,8 @@ interface Arguments {
 function parseArguments(args: string[]): Arguments {
   if (args.length < 4) throw new Error('Not enough arguments');
 
-  let target: number = 0;
-  let arrArguments: number[] = [];
+  let target = 0;
+  const arrArguments: number[] = [];
   for (let i = 2; i < args.length; i++) {
     if (i === 2 && !isNaN(Number(args[2]))) {
       target = Number(args[2]);
@@ -52,9 +52,12 @@ function calculateRating(average: number, target: number): RatingResult {
   return { rating, ratingDescription };
 }
 
-function execriseCalculator(arrOfHours: number[], target: number): Statistic {
-  let allTrainingTime: number = 0;
-  let workedDays: number = 0;
+export function execriseCalculator(
+  arrOfHours: number[],
+  target: number
+): Statistic {
+  let allTrainingTime = 0;
+  let workedDays = 0;
   arrOfHours.map((time: number) => {
     if (time !== 0) {
       ++workedDays;

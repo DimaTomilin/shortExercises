@@ -1,6 +1,9 @@
 import express from 'express';
 const app = express();
 import { calculateBmi } from './bmiCalculator';
+import { execriseCalculator } from './exerciseCalculator';
+
+app.use(express.json());
 
 app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack');
@@ -8,8 +11,8 @@ app.get('/hello', (_req, res) => {
 
 app.get('/bmi', (req, res) => {
   try {
-    const height: number = Number(req.query.height);
-    const weight: number = Number(req.query.weight);
+    const height = Number(req.query.height);
+    const weight = Number(req.query.weight);
 
     if (isNaN(height) || isNaN(weight)) {
       throw new Error('Provided values were not numbers!');
@@ -17,6 +20,30 @@ app.get('/bmi', (req, res) => {
     const bmi: string = calculateBmi(height, weight);
     res.json({ height, weight, bmi });
   } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.send({ error: error.message });
+    }
+  }
+});
+
+app.post('/exercises', (req, res) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const daily_exercises: number[] = req.body.daily_exercises;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const target = Number(req.body.daily_exercises);
+
+  try {
+    if (daily_exercises === undefined || target === undefined) {
+      throw new Error('Parametrs missing!');
+    }
+    if (
+      daily_exercises.find((element: unknown) => isNaN(Number(element))) ||
+      isNaN(target)
+    ) {
+      throw new Error('Provided values were not numbers!');
+    }
+    res.send(execriseCalculator(daily_exercises, target));
+  } catch (error) {
     if (error instanceof Error) {
       res.send({ error: error.message });
     }

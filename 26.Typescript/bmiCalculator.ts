@@ -14,8 +14,8 @@ export function calculateBmi(height: number, weight: number): string {
 }
 
 try {
-  const a: number = Number(process.argv[2]);
-  const b: number = Number(process.argv[3]);
+  const a = Number(process.argv[2]);
+  const b = Number(process.argv[3]);
 
   if (isNaN(a) || isNaN(b)) {
     throw new Error('Provided values were not numbers!');
