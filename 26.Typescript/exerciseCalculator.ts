@@ -18,16 +18,16 @@ interface Arguments {
   target: number;
 }
 
-function parseArguments(arguments: string[]): Arguments {
-  if (arguments.length < 4) throw new Error('Not enough arguments');
+function parseArguments(args: string[]): Arguments {
+  if (args.length < 4) throw new Error('Not enough arguments');
 
-  let target: number;
+  let target: number = 0;
   let arrArguments: number[] = [];
-  for (let i = 2; i < arguments.length; i++) {
-    if (i === 2 && !isNaN(Number(arguments[2]))) {
-      target = Number(arguments[2]);
-    } else if (!isNaN(Number(arguments[i]))) {
-      arrArguments.push(Number(arguments[i]));
+  for (let i = 2; i < args.length; i++) {
+    if (i === 2 && !isNaN(Number(args[2]))) {
+      target = Number(args[2]);
+    } else if (!isNaN(Number(args[i]))) {
+      arrArguments.push(Number(args[i]));
     } else {
       throw new Error('Provided values were not numbers!');
     }
