@@ -1,5 +1,5 @@
-function calculateBmi(heigth: number, weigth: number): string {
-  const ibm: number = weigth / Math.pow(heigth / 100, 2);
+export function calculateBmi(height: number, weight: number): string {
+  const ibm: number = weight / Math.pow(height / 100, 2);
   if (ibm < 18.5) return 'Underweight (Unhealthy)';
 
   if (ibm <= 22.9) return 'Normal range (Healthy)';
@@ -9,6 +9,8 @@ function calculateBmi(heigth: number, weigth: number): string {
   if (ibm <= 29.9) return 'Overweight II (Moderately obese)';
 
   if (ibm >= 30) return 'Overweight III (Severely obese)';
+
+  throw new Error('Error!');
 }
 
 try {
