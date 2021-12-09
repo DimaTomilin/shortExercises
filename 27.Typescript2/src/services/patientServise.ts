@@ -12,6 +12,16 @@ const getNonSsnPatients = (): PublicPatient[] => {
   }));
 };
 
+const getPatientById = (id: string): Patient => {
+  const patient = patients.find((patient) => {
+    return patient.id === id;
+  });
+  if (patient === undefined) {
+    throw new Error('Incorrect id. Patient don`t found');
+  }
+  return patient;
+};
+
 const addPatient = ({
   name,
   dateOfBirth,
@@ -35,5 +45,6 @@ const addPatient = ({
 
 export default {
   getNonSsnPatients,
+  getPatientById,
   addPatient,
 };
