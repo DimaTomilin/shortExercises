@@ -1,8 +1,8 @@
 import patients from '../../data/patients';
-import { nonSsnPatient, newPatientEntry, Patient } from '../types';
+import { PublicPatient, newPatientEntry, Patient } from '../types';
 import { v1 as uuid } from 'uuid';
 
-const getNonSsnPatients = (): nonSsnPatient[] => {
+const getNonSsnPatients = (): PublicPatient[] => {
   return patients.map(({ id, name, gender, dateOfBirth, occupation }) => ({
     id,
     name,
@@ -26,6 +26,7 @@ const addPatient = ({
     ssn,
     gender,
     occupation,
+    entries: [],
   };
 
   patients.push(newPatientEntry);

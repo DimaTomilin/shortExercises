@@ -7,6 +7,7 @@ type Fields = {
   ssn: unknown;
   gender: unknown;
   occupation: unknown;
+  entries: unknown;
 };
 
 const toNewPatientEntry = (object: Fields): newPatientEntry => {
@@ -16,6 +17,7 @@ const toNewPatientEntry = (object: Fields): newPatientEntry => {
     ssn: parseSsn(object.ssn),
     gender: parseGender(object.gender),
     occupation: parseOccupation(object.occupation),
+    entries: [],
   };
 
   return newEntry;
