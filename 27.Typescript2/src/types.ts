@@ -1,3 +1,8 @@
+export enum Gender {
+  Male = 'male',
+  Female = 'female',
+}
+
 export interface Diagnose {
   code: string;
   name: string;
@@ -9,8 +14,10 @@ export interface Patient {
   name: string;
   dateOfBirth: string;
   ssn: string;
-  gender: string;
+  gender: Gender;
   occupation: string;
 }
 
 export type nonSsnPatient = Omit<Patient, 'ssn'>;
+
+export type newPatientEntry = Omit<Patient, 'id'>;
