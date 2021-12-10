@@ -33,18 +33,12 @@ export interface HealthCheckEntry extends BaseEntry {
 export interface OccupationalHealthcareEntry extends BaseEntry {
   type: 'OccupationalHealthcare';
   employerName: string;
-  sickLeave?: {
-    startDate: string;
-    endDate: string;
-  };
+  sickLeave?: SickLeave;
 }
 
 export interface HospitalEntry extends BaseEntry {
   type: 'Hospital';
-  discharge: {
-    date: string;
-    criteria: string;
-  };
+  discharge: Discharge;
 }
 
 export type Entry =
@@ -61,3 +55,27 @@ export interface Patient {
   occupation: string;
   entries: Entry[];
 }
+
+export enum EntryType {
+  HealthCheck = 'HealthCheck',
+  OccupationalHealthCare = 'OccupationalHealthcare',
+  Hospital = 'Hospital',
+}
+
+interface SickLeave {
+  startDate: string;
+  endDate: string;
+}
+
+interface Discharge {
+  date: string;
+  criteria: string;
+}
+
+type DistributiveOmit<T, K extends keyof Entry> = T extends Entry
+  ? Omit<T, K>
+  : never;
+
+export type NewBaseEntry = Omit<BaseEntry, 'id'>;
+
+export type NewEntry = DistributiveOmit<Entry, 'id'>;
