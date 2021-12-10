@@ -8,6 +8,8 @@ import {
 } from '../types';
 import { v1 as uuid } from 'uuid';
 
+let savedPatients = [...patients];
+
 const getNonSsnPatients = (): PublicPatient[] => {
   return patients.map(({ id, name, gender, dateOfBirth, occupation }) => ({
     id,
@@ -45,14 +47,18 @@ const addPatient = ({
     entries: [],
   };
 
-  patients.push(newPatientEntry);
+  savedPatients = savedPatients.concat(newPatientEntry);
   return newPatientEntry;
 };
 
 const addEntry = (patient: Patient, newEntry: NewEntry): Patient => {
   const entry: Entry = { ...newEntry, id: uuid() };
+  console.log(entry);
   const savedPatient = { ...patient, entries: patient.entries.concat(entry) };
-  patients.map((p) => (p.id === savedPatient.id ? savedPatient : p));
+
+  savedPatients = savedPatients.map((p) =>
+    p.id === savedPatient.id ? savedPatient : p
+  );
 
   return savedPatient;
 };
