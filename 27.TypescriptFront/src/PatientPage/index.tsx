@@ -1,9 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Button } from 'semantic-ui-react';
 import axios from 'axios';
 
-import { Patient, Entry } from '../types';
+import AddEntryModal from '../AddEntryModal/index';
+import { Patient, Entry, NewEntry } from '../types';
 import { apiBaseUrl } from '../constants';
 import { useStateValue } from '../state';
 import Hospital from './Hospital';
@@ -32,6 +33,31 @@ const EntryDetails: React.FC<{ entry: Entry }> = ({ entry }) => {
 const PatientPage = () => {
   const { id } = useParams<{ id: string }>();
   const [{ patients }, dispatch] = useStateValue();
+
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string | undefined>();
+
+  const openModal = (): void => setModalOpen(true);
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+    setError(undefined);
+  };
+
+  const submitNewEntry = async (values: NewEntry) => {
+    const body = { ...values };
+
+    try {
+      const { data: returnedPatient } = await axios.post<Patient>(
+        `${apiBaseUrl}/patients/${id}/entries`,
+        body
+      );
+      dispatch({ type: 'UPDATE_PATIENT', payload: returnedPatient });
+      closeModal();
+    } catch (e: any) {
+      setError(e.response?.data?.error || 'Oops! Something went wrong!');
+    }
+  };
 
   let currentPatient: Patient | undefined = Object.values(patients).find(
     (patient: Patient) => patient.id === id
@@ -81,6 +107,13 @@ const PatientPage = () => {
         {currentPatient.entries?.map((entry, i) => (
           <EntryDetails entry={entry} key={i} />
         ))}
+        <AddEntryModal
+          modalOpen={modalOpen}
+          onSubmit={submitNewEntry}
+          error={error}
+          onClose={closeModal}
+        />
+        <Button onClick={openModal}>Add New Entry</Button>
       </div>
     );
   }
