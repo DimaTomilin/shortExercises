@@ -1,5 +1,11 @@
 import patients from '../../data/patients';
-import { PublicPatient, newPatientEntry, Patient } from '../types';
+import {
+  PublicPatient,
+  newPatientEntry,
+  Patient,
+  NewEntry,
+  Entry,
+} from '../types';
 import { v1 as uuid } from 'uuid';
 
 const getNonSsnPatients = (): PublicPatient[] => {
@@ -43,8 +49,17 @@ const addPatient = ({
   return newPatientEntry;
 };
 
+const addEntry = (patient: Patient, newEntry: NewEntry): Patient => {
+  const entry: Entry = { ...newEntry, id: uuid() };
+  const savedPatient = { ...patient, entries: patient.entries.concat(entry) };
+  patients.map((p) => (p.id === savedPatient.id ? savedPatient : p));
+
+  return savedPatient;
+};
+
 export default {
   getNonSsnPatients,
   getPatientById,
   addPatient,
+  addEntry,
 };
