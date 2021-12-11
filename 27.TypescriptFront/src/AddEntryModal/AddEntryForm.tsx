@@ -5,56 +5,33 @@ import { Field, Formik, Form } from 'formik';
 import { useStateValue } from '../state';
 import { TextField, DiagnosisSelection } from '../AddPatientModal/FormField';
 import EntryTypeFields from './EntryTypeField';
-import { EntryType, HealthCheckEntry } from '../types';
+import { EntryType, HealthCheckEntry, NewEntry } from '../types';
 
 export type EntryFormValues = Omit<HealthCheckEntry, 'id'>;
 
 interface Props {
-  onSubmit: (values: EntryFormValues) => void;
+  initialValues: NewEntry;
+  validationSchema: unknown;
+  onSubmit: (values: NewEntry) => void;
   onCancel: () => void;
 }
 
-export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
+const AddEntryForm: React.FC<Props> = ({
+  onSubmit,
+  onCancel,
+  initialValues,
+  validationSchema,
+}) => {
   const [{ diagnoses }] = useStateValue();
 
-  const initialValues: EntryFormValues = {
-    type: EntryType.HealthCheck,
-    description: '',
-    date: '',
-    specialist: '',
-    diagnosisCodes: [],
-    healthCheckRating: 3,
-  };
   return (
     <Formik
       initialValues={initialValues}
+      enableReinitialize={true}
       onSubmit={onSubmit}
-      validate={(values) => {
-        const requiredError = 'Field is required';
-        const invalidError = 'Invalid data';
-        const errors: { [field: string]: string } = {};
-        if (!values.description) {
-          errors.name = requiredError;
-        }
-        if (!values.date) {
-          errors.ssn = requiredError;
-        }
-        if (!values.specialist) {
-          errors.dateOfBirth = requiredError;
-        }
-        if (!values.diagnosisCodes) {
-          errors.occupation = requiredError;
-        }
-        if (
-          Number(values.healthCheckRating) > 3 ||
-          Number(values.healthCheckRating) < 0
-        ) {
-          errors.occupation = invalidError;
-        }
-        return errors;
-      }}
+      validationSchema={validationSchema}
     >
-      {({ isValid, dirty, setFieldValue, setFieldTouched }) => {
+      {({ isValid, dirty, setFieldValue, setFieldTouched, values }) => {
         return (
           <Form className="form ui">
             <Field
@@ -80,7 +57,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
               setFieldTouched={setFieldTouched}
               diagnoses={Object.values(diagnoses)}
             />
-            <EntryTypeFields entryType={EntryType.Hospital} />
+            <EntryTypeFields entryType={values.type as EntryType} />
             <Grid>
               <Grid.Column floated="left" width={5}>
                 <Button type="button" onClick={onCancel} color="red">
