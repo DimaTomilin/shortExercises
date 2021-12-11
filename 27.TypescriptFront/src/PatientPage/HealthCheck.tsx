@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon, Card } from 'semantic-ui-react';
 import { HealthCheckEntry } from '../types';
 
-const style = { margin: 10 };
+const style = { margin: 10, width: 350 };
 
 const HealthCheck: React.FC<{ entry: HealthCheckEntry }> = ({ entry }) => {
   let color: 'green' | 'yellow' | 'orange' | 'red';
@@ -29,9 +29,17 @@ const HealthCheck: React.FC<{ entry: HealthCheckEntry }> = ({ entry }) => {
     <div>
       <Card style={style}>
         <Card.Content>
-          {entry.date} <Icon name="user doctor" />
+          <Card.Header>
+            {entry.date} <Icon color="orange" name="doctor" />
+          </Card.Header>
+          <Card.Meta>by {entry.specialist}</Card.Meta>
+          <Card.Description>{entry.description}</Card.Description>
+          <br />
+          {'Diagnoses:'}
+          {entry.diagnosisCodes?.map((code, index) => {
+            return <li key={index}>{code}</li>;
+          })}
         </Card.Content>
-        <Card.Content description={entry.description} />
         <Card.Content extra>
           <Icon name="heart" color={color} />
         </Card.Content>
