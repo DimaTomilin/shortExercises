@@ -53,9 +53,7 @@ const addEntry = (patient: Patient, newEntry: NewEntry): Patient => {
   const entry: Entry = { ...newEntry, id: uuid() };
   const savedPatient = { ...patient, entries: patient.entries.concat(entry) };
 
-  patients
-    .find((p) => (p.id === savedPatient.id ? savedPatient : p))
-    ?.entries.push(entry);
+  patients.find((p) => p.id === savedPatient.id)?.entries.push(entry);
 
   return savedPatient;
 };
