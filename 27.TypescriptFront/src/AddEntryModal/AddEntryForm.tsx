@@ -34,6 +34,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
       onSubmit={onSubmit}
       validate={(values) => {
         const requiredError = 'Field is required';
+        const invalidError = 'Invalid data';
         const errors: { [field: string]: string } = {};
         if (!values.description) {
           errors.name = requiredError;
@@ -46,6 +47,12 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
         }
         if (!values.diagnosisCodes) {
           errors.occupation = requiredError;
+        }
+        if (
+          Number(values.healthCheckRating) > 3 ||
+          Number(values.healthCheckRating) < 0
+        ) {
+          errors.occupation = invalidError;
         }
         return errors;
       }}
